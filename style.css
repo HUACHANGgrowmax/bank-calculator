@@ -1,0 +1,172 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2868a1;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header {
+    background-color: #b30202;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.header-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.logo {
+    height: 100px; /* Adjust size as needed */
+    margin-bottom: 10px; /* Space between title and logo */
+    margin-right: 10px;
+}
+
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+section {
+    background-color: rgb(12, 172, 38);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+    color: #000000;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.banks-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.ba-banks {
+    justify-content: space-between;
+}
+
+.od-banks {
+    justify-content: space-between;
+}
+
+.bank-card {
+    position: relative;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: calc(50% - 20px);
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.ba-bank-card[data-bank-name="UOB"] { background-image: url('uob-bg.jpg'); }
+.ba-bank-card[data-bank-name="Agrobank"] { background-image: url('agrobank-bg.jpg'); }
+.ba-bank-card[data-bank-name="Maybank"] { background-image: url('maybank-bg.jpg'); }
+.ba-bank-card[data-bank-name="MBSB"] { background-image: url('mbsb-bg.jpg'); }
+.od-bank-card[data-bank-name="Agrobank"] { background-image: url('agrobank-bg.jpg'); }
+.od-bank-card[data-bank-name="Maybank"] { background-image: url('maybank-bg.jpg'); }
+.od-bank-card[data-bank-name="MBSB"] { background-image: url('mbsb-bg.jpg'); }
+
+.bank-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.75); /* Slightly transparent white overlay */
+    border-radius: 1px;
+    z-index: 0;
+}
+
+.bank-info {
+    position: relative;
+    z-index: 1;
+    background: none;
+    padding: 10px;
+}
+
+.bank-info h3 {
+    margin: 0 0 5px;
+    font-size: 25px;
+    font-weight: bold;
+    color: #000000;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+}
+
+.bank-info p {
+    margin: 5px 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+}
+
+.bank-card:hover {
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .bank-card {
+        width: 100%;
+    }
+    .header-content {
+        flex-direction: column;
+    }
+    .logo {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 769px) {
+    .ba-banks {
+        justify-content: space-between;
+    }
+    .od-banks {
+        justify-content: space-between;
+    }
+}

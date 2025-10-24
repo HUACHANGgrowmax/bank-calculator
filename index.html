@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="huachang-bg.jpg" alt="Company Logo" class="logo">
+            <h1>Bank Calculator</h1>
+        </div>
+    </header>
+    <main>
+        <section id="ba-calculator">
+            <h2>Bank Acceptance (B.A.)</h2>
+            <div class="input-group">
+                <label for="ba-amount">Amount:</label>
+                <input type="text" id="ba-amount" placeholder="RM X,XXX,XXX.XX">
+            </div>
+            <div class="input-group">
+                <label for="ba-days">Days:</label>
+                <input type="number" id="ba-days" value="120" min="1">
+            </div>
+            <div id="ba-banks" class="banks-container ba-banks"></div>
+        </section>
+        <section id="od-calculator">
+            <h2>Overdraft Interest (O.D.)</h2>
+            <div class="input-group">
+                <label for="od-amount">Amount:</label>
+                <input type="text" id="od-amount" placeholder="RM X,XXX,XXX.XX">
+            </div>
+            <div class="input-group">
+                <label for="od-days">Days:</label>
+                <input type="number" id="od-days" value="30" min="1">
+            </div>
+            <div id="od-banks" class="banks-container od-banks"></div>
+        </section>
+    </main>
+    <script src="data.js"></script>
+    <script>
+        // Format number to RM X,XXX,XXX.XX
+        function formatRM(value) {
+            const formatted = value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            return `RM ${formatted}`;
+        }
+
+        // Parse formatted RM string to number
+        function parseRM(value) {
+            return parseFloat(value.replace(/[^0-9.]/g, '')) || 0;
+        }
+
+        // Calculate total interest
+        function calculateTotal(amount, rate, days) {
+            return (amount * (rate / 100) * (days / 365));
+        }
+
+        // Render banks for a section
+        function renderBanks(type) {
+            const container = document.getElementById(`${type}-banks`);
+            container.innerHTML = '';
+            banks[type].forEach((bank, index) => {
+                const bankElement = document.createElement('div');
+                bankElement.className = `bank-card ${type}-bank-card`;
+                bankElement.dataset.bankName = bank.name;
+                const rateLabel = type === 'ba' ? 'B.A. Rate' : 'O.D. Rate';
+                bankElement.innerHTML = `
+                    <div class="bank-info">
+                        <h3>${index + 1}. ${bank.name}</h3>
+                        <p>${rateLabel}: ${bank.rate}%</p>
+                        <p>Total: <span id="${type}-${bank.name.replace(/\s/g, '')}-total">RM 0.00</span></p>
+                    </div>
+                `;
+                container.appendChild(bankElement);
+            });
+        }
+
+        // Update totals for a section
+        function updateTotals(type) {
+            const amountInput = document.getElementById(`${type}-amount`);
+            const daysInput = document.getElementById(`${type}-days`);
+            const amount = parseRM(amountInput.value);
+            const days = parseFloat(daysInput.value) || 0;
+            banks[type].forEach(bank => {
+                const total = calculateTotal(amount, bank.rate, days);
+                const totalSpan = document.getElementById(`${type}-${bank.name.replace(/\s/g, '')}-total`);
+                if (totalSpan) {
+                    totalSpan.textContent = formatRM(total);
+                }
+            });
+        }
+
+        // Handle amount input formatting
+        function setupAmountInput(inputId) {
+            const input = document.getElementById(inputId);
+            input.addEventListener('focus', () => {
+                input.value = parseRM(input.value).toString();
+            });
+            input.addEventListener('blur', () => {
+                const value = parseRM(input.value);
+                input.value = formatRM(value);
+            });
+        }
+
+        // Initialize
+        renderBanks('ba');
+        renderBanks('od');
+        setupAmountInput('ba-amount');
+        setupAmountInput('od-amount');
+
+        // Event listeners for updates
+        ['ba', 'od'].forEach(type => {
+            const amountInput = document.getElementById(`${type}-amount`);
+            const daysInput = document.getElementById(`${type}-days`);
+            amountInput.addEventListener('input', () => updateTotals(type));
+            daysInput.addEventListener('input', () => updateTotals(type));
+            // Initial update
+            updateTotals(type);
+        });
+    </script>
+</body>
+</html>
