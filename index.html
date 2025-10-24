@@ -41,23 +41,16 @@
     </main>
     <script src="data.js"></script>
     <script>
-        // Format number to RM X,XXX,XXX.XX
         function formatRM(value) {
             const formatted = value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
             return `RM ${formatted}`;
         }
-
-        // Parse formatted RM string to number
         function parseRM(value) {
             return parseFloat(value.replace(/[^0-9.]/g, '')) || 0;
         }
-
-        // Calculate total interest
         function calculateTotal(amount, rate, days) {
             return (amount * (rate / 100) * (days / 365));
         }
-
-        // Render banks for a section
         function renderBanks(type) {
             const container = document.getElementById(`${type}-banks`);
             container.innerHTML = '';
@@ -76,8 +69,6 @@
                 container.appendChild(bankElement);
             });
         }
-
-        // Update totals for a section
         function updateTotals(type) {
             const amountInput = document.getElementById(`${type}-amount`);
             const daysInput = document.getElementById(`${type}-days`);
@@ -91,8 +82,6 @@
                 }
             });
         }
-
-        // Handle amount input formatting
         function setupAmountInput(inputId) {
             const input = document.getElementById(inputId);
             input.addEventListener('focus', () => {
@@ -103,20 +92,15 @@
                 input.value = formatRM(value);
             });
         }
-
-        // Initialize
         renderBanks('ba');
         renderBanks('od');
         setupAmountInput('ba-amount');
         setupAmountInput('od-amount');
-
-        // Event listeners for updates
         ['ba', 'od'].forEach(type => {
             const amountInput = document.getElementById(`${type}-amount`);
             const daysInput = document.getElementById(`${type}-days`);
             amountInput.addEventListener('input', () => updateTotals(type));
             daysInput.addEventListener('input', () => updateTotals(type));
-            // Initial update
             updateTotals(type);
         });
     </script>
