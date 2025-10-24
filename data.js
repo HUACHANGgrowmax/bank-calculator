@@ -1,4 +1,3 @@
-// data.js
 const banks = {
     ba: [
         { name: 'UOB', rate: 4.80 },
@@ -12,7 +11,5 @@ const banks = {
         { name: 'MBSB', rate: 7.75 }
     ]
 };
-
-// Sort banks by rate ascending
 banks.ba.sort((a, b) => a.rate - b.rate);
 banks.od.sort((a, b) => a.rate - b.rate);
